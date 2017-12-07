@@ -28,7 +28,7 @@ app.set('view engine', 'ejs');
 // Database configuration
 var config = require('./server/config/config.js');
 // connect to our database
-mongoose.connect(config.url);
+mongoose.connect(config.url,{useMongoClient:true});
 // Check if MongoDB is running
 mongoose.connection.on('error', function () {
   console.error('MongoDB Connection Error. Make sure MongoDB is running.');
@@ -43,14 +43,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: true,
   sourceMap: true
 }));
-
 // Setup public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
